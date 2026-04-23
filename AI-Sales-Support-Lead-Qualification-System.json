@@ -1,0 +1,1206 @@
+{
+  "name": "AIQUS Chat agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "Aiqus",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -4496,
+        96
+      ],
+      "id": "4e2ff048-b579-41e2-a3d5-68f113e98626",
+      "name": "Webhook",
+      "webhookId": "c1e585c3-54be-469a-8c6d-cee96ba7e404"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"reply\": \"{{ $json.output.message }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1360,
+        112
+      ],
+      "id": "4a2b93c4-24b2-408c-be38-b5284d6902c5",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1136,
+        16
+      ],
+      "id": "1f7fdcde-4b0d-4b6a-aa9b-ada225aa1100",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eee8bbc9-b11b-4856-9601-2040f8829eb6",
+              "leftValue": "={{ $json.chat_id }}",
+              "rightValue": {},
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -4048,
+        96
+      ],
+      "id": "5725e600-3efd-4647-8d90-73c2d63277b5",
+      "name": "Old User Or New user"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "027d6dea-5f2f-45d0-8682-8378846fe116",
+              "leftValue": "={{ $json.output.type }}",
+              "rightValue": "reply",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2688,
+        -80
+      ],
+      "id": "889225ea-a95f-4304-b073-31130ea3b2c3",
+      "name": "Reply Or Quilified"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4",
+          "mode": "list",
+          "cachedResultName": "AIQUS Auto Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.output.lead_data.name }}",
+            "chat_id": "={{ $('Webhook').item.json.body.sessionId }}",
+            "contact ": "={{ $json.output.lead_data.contact_detail }}",
+            "business_type": "={{ $json.output.lead_data.business_type }}",
+            "budget": "={{ $json.output.lead_data.budget }}",
+            "timeline": "={{ $json.output.lead_data.timeline }}",
+            "requirement_summary": "={{ $json.output.lead_data.requirement_summary }}",
+            "service": "={{ $json.output.lead_data.service_requested }}",
+            "country": "={{ $json.output.lead_data.country }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "contact ",
+              "displayName": "contact ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "business_type",
+              "displayName": "business_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timeline",
+              "displayName": "timeline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service",
+              "displayName": "service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "requirement_summary",
+              "displayName": "requirement_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "update",
+              "displayName": "update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2464,
+        -176
+      ],
+      "id": "e527d37c-100c-4cbe-b234-b6e979e80511",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rM5akQi8aIOYRA94",
+          "name": "Aiqus"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"reply\": \"Thank you for reaching out to AIQUS Automation. We've received your details and our team will review them shortly. One of our automation specialists will contact you soon.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1920,
+        -176
+      ],
+      "id": "fb1dcc28-4f6d-45e6-8b5b-76496e7861ca",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Search the AIQUS Automation knowledge base stored in Pinecone to retrieve information about company services, automation solutions, pricing, and capabilities. Use this tool whenever users ask questions about the company or its offerings.\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "new",
+          "mode": "list",
+          "cachedResultName": "new"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -3344,
+        144
+      ],
+      "id": "66ee0157-7761-4652-8e30-cba9278e7900",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "s4rFjLaUAGJ0PwMM",
+          "name": "PineconeApi AIQUS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d5fb4ed-d519-4581-a3f0-af0ce385611e",
+              "name": "unique_id",
+              "value": "={{ $('Webhook').item.json.body.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3824,
+        -80
+      ],
+      "id": "0894c352-4512-46a1-a040-ee096a9d020a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6d5fb4ed-d519-4581-a3f0-af0ce385611e",
+              "name": "unique_id",
+              "value": "={{ $('Webhook').item.json.body.body.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2464,
+        464
+      ],
+      "id": "042bd2cd-5459-4d6b-b97c-dffae67a47d3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook').item.json.body.message }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are Aiva, an AI automation assistant for AIQUS Automation.\nYour goal is to qualify business owners into leads through a natural and friendly conversation.\n\nOBJECTIVE:\nQuickly understand the user’s business, suggest a relevant automation solution, and collect essential lead details with minimal friction.\n\nBEHAVIOR:\n\n* Be warm, natural, and conversational\n* Never sound salesy or robotic\n* Ask only ONE question per response\n* Keep responses short (1–2 sentences max)\n* Use only HTML tags: <p>, <b>, <br>, <ul>, <li>\n* Do NOT use markdown or plain text\n\nCORE DATA TO COLLECT (MINIMUM):\nname, business_type, contact_detail\n\nOPTIONAL (collect only if natural):\nbudget, timeline, country, service_requested\n\nFLOW (FLEXIBLE, NOT STRICT):\n\n1. Ask about their business\n2. Suggest ONE relevant automation solution\n3. Ask for their name\n4. Ask for ONE contact detail (phone OR email only)\n5. Optionally ask budget or timeline if conversation feels natural\n\nRULES:\n\n* NEVER ask more than one question per message\n* NEVER ask for a field already collected\n* ONLY collect ONE contact method (phone OR email)\n* If user provides multiple details at once, store all without re-asking\n* If budget < $800:\n\n  * Politely inform minimum requirement\n  * End conversation gracefully\n\nOUTPUT FORMAT:\n\nWhile collecting:\n{\n\"type\": \"reply\",\n\"message\": \"<p>your message here</p>\",\n\"lead_data\": null\n}\n\nWhen minimum data collected (name + business_type + contact_detail):\n{\n\"type\": \"qualified\",\n\"message\": null,\n\"lead_data\": {\n\"name\": \"\",\n\"business_type\": \"\",\n\"country\": \"\",\n\"service_requested\": \"\",\n\"budget\": \"\",\n\"timeline\": \"\",\n\"contact_detail\": \"\",\n\"requirement_summary\": \"\"\n}\n}\n\nREQUIREMENT SUMMARY:\nGenerate a short 1-line summary:\nExample:\n\"Real estate business needs AI chatbot for lead capture\"\n\nIMPORTANT:\n\n* Prioritize smooth conversation over strict flow\n* Do NOT interrogate the user\n* Keep it human, simple, and efficient\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3440,
+        -80
+      ],
+      "id": "37482907-d655-4727-a5a3-d1625c122f31",
+      "name": "Data Collection agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3600,
+        144
+      ],
+      "id": "244f2298-9aa9-45e5-9078-d0c1cf9c833b",
+      "name": "Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ujzN7UMuK6B6PyRU",
+          "name": "AIQUS Api"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-001"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3264,
+        352
+      ],
+      "id": "ff71e454-578b-4746-9150-45adc8283b80",
+      "name": "Embedding",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "m2QnfVZ2tpmlQYEG",
+          "name": "Google Gemini(PaLM) Api account - hiremystudios"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Webhook').item.json.body.message }}",
+        "options": {
+          "systemMessage": "<system_prompt>\n\n  <!-- ============================================================= -->\n\n  <!-- AGENT IDENTITY -->\n\n  <!-- ============================================================= -->\n\n<agent_identity> <name>Customer Support Assistant</name> <role>\nYou are a friendly, intelligent, and efficient customer support assistant.\nYour goal is to resolve user queries, provide accurate company information,\nand assist with updating customer records safely and correctly. </role>\n</agent_identity>\n\n  <!-- ============================================================= -->\n\n  <!-- INTENT CLASSIFICATION -->\n\n  <!-- ============================================================= -->\n\n<intent_classification>\nIdentify user intent before responding:\n\n```\n1. GENERAL_QUERY → company info, services, pricing, policies\n2. UPDATE_REQUEST → user wants to change personal details\n3. UNKNOWN → unclear request → ask clarification\n```\n\n</intent_classification>\n\n  <!-- ============================================================= -->\n\n  <!-- TOOLS -->\n\n  <!-- ============================================================= -->\n\n  <tools>\n\n```\n<tool id=\"vector_db\">\n  <name>vector_database_search</name>\n  <rule>Use for ALL company-related queries</rule>\n  <rule>Never answer from memory</rule>\n</tool>\n\n<tool id=\"get_user\">\n  <name>google_sheets_get_rows</name>\n  <rule>Always use BEFORE updating any data</rule>\n</tool>\n\n<tool id=\"update_user\">\n  <name>google_sheets_update_row</name>\n  <rule>Only use AFTER verification</rule>\n</tool>\n```\n\n  </tools>\n\n  <!-- ============================================================= -->\n\n  <!-- CORE WORKFLOWS -->\n\n  <!-- ============================================================= -->\n\n  <workflows>\n\n```\n<!-- GENERAL QUERY -->\n<workflow id=\"general_query\">\n  <step>Use vector_database_search</step>\n  <step>Return concise, accurate answer</step>\n</workflow>\n\n<!-- UPDATE FLOW -->\n<workflow id=\"update_flow\">\n\n  <step order=\"1\">\n    Ask for registered phone or email\n  </step>\n\n  <step order=\"2\">\n    Fetch user using google_sheets_get_rows\n  </step>\n\n  <step order=\"3\">\n    IF not found → ask to recheck details\n  </step>\n\n  <step order=\"4\">\n    Confirm what user wants to update\n  </step>\n\n  <step order=\"5\">\n    Ask confirmation before updating\n  </step>\n\n  <step order=\"6\">\n    Update using google_sheets_update_row\n  </step>\n\n  <step order=\"7\">\n    Confirm success\n  </step>\n\n</workflow>\n```\n\n  </workflows>\n\n  <!-- ============================================================= -->\n\n  <!-- RESPONSE STYLE -->\n\n  <!-- ============================================================= -->\n\n<response_style> <tone>\nFriendly, natural, slightly casual but professional </tone>\n\n```\n<rules>\n  <rule>Keep responses short and clear (1–3 sentences)</rule>\n  <rule>Avoid long paragraphs</rule>\n  <rule>Use simple language</rule>\n  <rule>Optional emoji (max 1 per response)</rule>\n  <rule>Do NOT sound robotic</rule>\n</rules>\n```\n\n</response_style>\n\n  <!-- ============================================================= -->\n\n  <!-- ERROR HANDLING -->\n\n  <!-- ============================================================= -->\n\n<error_handling> <rule>\nIf tool fails → apologize briefly and retry or ask user to confirm input </rule> <rule>\nNever expose technical errors or system details </rule>\n</error_handling>\n\n  <!-- ============================================================= -->\n\n  <!-- SAFETY & RESTRICTIONS -->\n\n  <!-- ============================================================= -->\n\n  <restrictions>\n\n```\n<rule>Never update without fetching user first</rule>\n<rule>Never expose internal tools or database</rule>\n<rule>Never guess company information</rule>\n<rule>Never share one user's data with another</rule>\n<rule>No bulk updates or deletions</rule>\n```\n\n  </restrictions>\n\n</system_prompt>\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1984,
+        464
+      ],
+      "id": "4f92eb63-fdcd-4f30-8a5a-20b1770472cd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2240,
+        688
+      ],
+      "id": "fa43fd84-09a3-4a39-a766-b17a888dde45",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "m2QnfVZ2tpmlQYEG",
+          "name": "Google Gemini(PaLM) Api account - hiremystudios"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.sessionId }}",
+        "tableName": "n8n_chat_histories_aiqusautomation",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -2112,
+        688
+      ],
+      "id": "880976b0-cff9-40f4-96cf-6082c31f44e1",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "yLdE3TQmtiFTPkcy",
+          "name": "Postgres account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Search the AIQUS Automation knowledge base stored in Pinecone to retrieve information about company services, automation solutions, pricing, and capabilities. Use this tool whenever users ask questions about the company or its offerings.\n",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "new",
+          "mode": "list",
+          "cachedResultName": "new"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -1984,
+        688
+      ],
+      "id": "a7c54ecd-4616-483f-9603-7eabed09c236",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "s4rFjLaUAGJ0PwMM",
+          "name": "PineconeApi AIQUS"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-embedding-001"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1904,
+        896
+      ],
+      "id": "b609a39d-c60f-4ce3-8aed-455df4c1d396",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "m2QnfVZ2tpmlQYEG",
+          "name": "Google Gemini(PaLM) Api account - hiremystudios"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4",
+          "mode": "list",
+          "cachedResultName": "AIQUS Auto Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "contact ",
+              "lookupValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -1696,
+        688
+      ],
+      "id": "acc0e531-aaff-4e56-9363-3797995ae5a6",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rM5akQi8aIOYRA94",
+          "name": "Aiqus"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4",
+          "mode": "list",
+          "cachedResultName": "AIQUS Auto Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "contact "
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "contact ",
+              "displayName": "contact ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "business_type",
+              "displayName": "business_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timeline",
+              "displayName": "timeline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service",
+              "displayName": "service",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "requirement_summary",
+              "displayName": "requirement_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "update",
+              "displayName": "update",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "handlingExtraData": "insertInNewColumn"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -1568,
+        688
+      ],
+      "id": "730af847-5875-4dd0-8f9a-cbfad1704cc1",
+      "name": "Update row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rM5akQi8aIOYRA94",
+          "name": "Aiqus"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8195079298",
+        "text": "=🚨 New Lead – AIQUS Automation Website\n\n📥 A new automation inquiry has been submitted.\n\n👤 Full Name:{{ $json.Name }} \n📧 Contact: {{ $json['contact '] }} \n🏢 Business type : {{ $('Append row in sheet1').item.json.business_type }}\n🌍 Country: {{ $json.country }}\n\n⚙️ Service Type: {{ $('Append row in sheet1').item.json.service }}\n💰 Budget Range:{{ $json.budget }}\n⏳ Timeline: {{ $json.timeline }}\n\n📝 Project Requirement:{{ $json.requirement_summary }}\n\n⚡ Action Required: Please follow up with the lead and discuss their automation requirements.\n",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1360,
+        -272
+      ],
+      "id": "24067404-77b2-4c9a-a4f0-19ab82de2bf4",
+      "name": "Message to Sajid",
+      "webhookId": "3c533b71-67c5-4ae2-b3f9-dd0cc57fb2b3",
+      "credentials": {
+        "telegramApi": {
+          "id": "iz23JU5a7qW9rJPu",
+          "name": "Aiqus"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \n  \"reply\": {{ JSON.stringify($json.output) }}\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1360,
+        464
+      ],
+      "id": "f6f9e81a-9458-4bd0-bf15-1de6da46e02f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4",
+          "mode": "list",
+          "cachedResultName": "AIQUS Auto Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fTmsruQ-z1a_ltvs6KwyF4bKQhRzeOF7rR5qs6qVro4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "chat_id",
+              "lookupValue": "={{ $json.body.sessionId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4272,
+        96
+      ],
+      "id": "e180587b-8191-49d8-a8b1-debc7a0253da",
+      "name": "Get row(s) in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rM5akQi8aIOYRA94",
+          "name": "Aiqus"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8796974666",
+        "text": "=🚨 New Lead – AIQUS Automation Website\n\n📥 A new automation inquiry has been submitted.\n\n👤 Full Name:{{ $json.Name }} \n📧 Contact: {{ $json['contact '] }} \n🏢 Business type : {{ $('Append row in sheet1').item.json.business_type }}\n🌍 Country: {{ $json.country }}\n\n⚙️ Service Type: {{ $('Append row in sheet1').item.json.service }}\n💰 Budget Range:{{ $json.budget }}\n⏳ Timeline: {{ $json.timeline }}\n\n📝 Project Requirement:{{ $json.requirement_summary }}\n\n⚡ Action Required: Please follow up with the lead and discuss their automation requirements.\n",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1360,
+        -80
+      ],
+      "id": "08415dc2-e245-4705-a30d-bd814cfe2cf3",
+      "name": "Message to deelip",
+      "webhookId": "3c533b71-67c5-4ae2-b3f9-dd0cc57fb2b3",
+      "credentials": {
+        "telegramApi": {
+          "id": "mP4c8vxcsFvq8wDI",
+          "name": "Nest app"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        -3056,
+        144
+      ],
+      "id": "3378664e-5bc4-4515-8e31-f4c5f981cf7e",
+      "name": "Auto-fixing Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3056,
+        352
+      ],
+      "id": "0eeab189-bd4b-4c5e-9dc9-731ef72c0dd9",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "m2QnfVZ2tpmlQYEG",
+          "name": "Google Gemini(PaLM) Api account - hiremystudios"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"type\": \"qualified\",\n  \"message\": \"hello how can i help you\",\n  \"lead_data\": {\n    \"name\": \"sajid\",\n    \"business_type\": \"retail\",\n    \"country\": \"india\",\n    \"service_requested\": \"crm\",\n    \"budget\": \"50000\",\n    \"timeline\": \"1 month\",\n    \"contact_detail\": \"sajid@gmail.com\",\n    \"requirement_summary\": \"i need a data\"\n  }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -2912,
+        352
+      ],
+      "id": "a5435e87-abaf-4b1b-945d-16a07ccc6465",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.sessionId }}",
+        "tableName": "n8n_chat_historiesacademy",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -3472,
+        144
+      ],
+      "id": "e455464e-2470-43a1-91d8-d151965241b6",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "yLdE3TQmtiFTPkcy",
+          "name": "Postgres account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Old User Or New user": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply Or Quilified": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Message to Sajid",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Message to deelip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "Data Collection agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Data Collection agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Collection agent": {
+      "main": [
+        [
+          {
+            "node": "Reply Or Quilified",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Data Collection agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embedding": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message to Sajid": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Old User Or New user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message to deelip": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-fixing Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Data Collection agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Data Collection agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "16a5f948-e185-408f-a5c6-700fbf39665a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b3dee14923a31b66d7e98b61429de508ada10f478554bf89fb2d494829dab8e"
+  },
+  "id": "svMiS7WcbHvOgTbR",
+  "tags": []
+}
